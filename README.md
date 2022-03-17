@@ -14,5 +14,34 @@ A GitHub Action for using Mayhem for Code to check for reliability, performance 
 
 Want to try it? [Get started for free](https://forallsecure.com/mayhem-free) today!
 
+## Getting Started
+
+To use the Mayhem for Code GitHub Action, perform the following steps:
+
+1. Create a Mayhem account and copy and paste your account token to GitHub Secrets.
+
+    a. Navigate to [mayhem.forallsecure.com](mayhem.forallsecure.com) to register an account.
+
+    b. Click your profile drop-down and go to *Settings* > *API Tokens* to access your account API token.
+
+    c. Copy and paste your Mayhem token to your [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-an-organization).
+
+2. Create a `mayhem.yml` file in your GitHub repository located at:
+
+    ```sh
+    .github/workflows/mayhem.yml
+    ```
+
 ## Example GitHub Actions Integration
 
+Modify the GitHub Action workflow file at `.github/workflows/mayhem.yml` and adjust the `context` parameter of the Docker build and push step to point to the corresponding target directory.
+
+```yaml
+- name: Build and push Docker image
+uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+with:
+    context: lighttpd
+    push: true
+    tags: ${{ steps.meta.outputs.tags }}
+    labels: ${{ steps.meta.outputs.labels }}
+```
