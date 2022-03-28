@@ -10,7 +10,7 @@ tasks:
   - name: behavior_testing
   - name: coverage_analysis
 cmds:
-  - cmd: /usr/local/sbin/lighttpd -D -f /usr/local/etc/lighttpd.conf
+  - cmd: /usr/local/sbin/lighttpd @@
     network:
       url: tcp://localhost:80
       timeout: 2
