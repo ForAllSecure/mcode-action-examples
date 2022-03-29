@@ -1,5 +1,4 @@
-version: '1.16'                                # all these fields
-baseimage: forallsecure/lighttpd:vulnerable    # are unnecessary
+image: forallsecure/lighttpd:vulnerable        # are unnecessary
 duration: 300                                  # since they will
 project: forallsecure/lighttpd                 # be filled at
 target: lighttpd                               # run creation time
