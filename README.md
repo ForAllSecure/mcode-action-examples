@@ -26,7 +26,7 @@ The `fixed` branch contains both a [Dockerfile](https://github.com/ForAllSecure/
 
     c. Copy and paste your Mayhem token to your [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-an-organization).
 
-2. On the `main` branch, navigate to your GitHub repository `Actions` tab and execute a CI pipeline for the `main` branch. This will build and push the `lighttpd 1.4.15` image to the GitHub Container Registry and use Mayhem to fuzz the resulting Docker image. Results can be found in the `Security` tab or on the Mayhem server itself with more details about the specific run.
+2. On the `main` branch, navigate to your GitHub repository `Actions` tab and execute a CI pipeline for the `main` branch (assuming this is not already done automatically). This will build and push the `lighttpd 1.4.15` image to the GitHub Container Registry and use Mayhem to fuzz the resulting Docker image. Results can be found in the `Security` tab or on the Mayhem server itself with more details about the specific run.
 
     > **Note:** You may be required to set your package visibility settings to `Public` to give Mayhem permissions to ingest your Docker image from the GitHub Container Registry. Click on your package in the right-hand pane of your GitHub repository and go to *Package Settings*. Then, scroll down to *Package Visibility* and set the package to `Public`.
 
