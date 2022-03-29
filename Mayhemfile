@@ -1,4 +1,4 @@
-image: forallsecure/lighttpd:vulnerable        # are unnecessary
+image: forallsecure/lighttpd:vulnerable        # fields are unnecessary
 duration: 300                                  # since they will
 project: forallsecure/lighttpd                 # be filled at
 target: lighttpd                               # run creation time
