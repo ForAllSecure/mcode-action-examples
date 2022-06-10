@@ -1,4 +1,4 @@
-image: forallsecure/lighttpd:vulnerable        # fields are unnecessary
+image: forallsecure/lighttpd:fixed             # fields are unnecessary
 duration: 300                                  # since they will
 project: forallsecure/lighttpd                 # be filled at
 target: lighttpd                               # run creation time
@@ -13,4 +13,4 @@ cmds:
     network:
       url: tcp://localhost:80
       timeout: 2
-      client: false 
+      client: false
