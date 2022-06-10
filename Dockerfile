@@ -8,14 +8,14 @@ RUN wget https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.15.t
    && mkdir /www && echo "lighttpd 1.4.15 running!" > /www/index.html
 COPY lighttpd.conf /usr/local/etc
 WORKDIR /
-COPY tests /tests
+COPY testsuite /testsuite
 CMD ["/usr/local/sbin/lighttpd","-D", "-f","/usr/local/etc/lighttpd.conf"]
 EXPOSE 80
 
 FROM debian:10-slim
 RUN apt-get update && apt-get install -y  --no-install-recommends libc6-dbg
 # Don't set workdir! corpus is relative to /
-COPY tests /tests
+COPY testsuite /testsuite
 COPY --from=builder /usr/local /usr/local
 RUN mkdir /www && echo "lighttpd 1.4.15 running!" > /www/index.html
 CMD ["/usr/local/sbin/lighttpd","-D", "-f","/usr/local/etc/lighttpd.conf"]
