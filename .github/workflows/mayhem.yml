@@ -110,8 +110,9 @@ jobs:
       - name: Upload coverage to Codecov
         if: always()
         uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           files: coverage/*.lcov
           flags: vulnerability-tests
-          functionalities: recursesubs
           name: mayhem
