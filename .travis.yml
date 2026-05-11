@@ -20,8 +20,8 @@ env:
     - REPO_SLUG=$(echo "$TRAVIS_REPO_SLUG" | tr '[:upper:]' '[:lower:]')
   jobs:
     # Specify one or more Mayhemfiles for testing
-    - MAYHEMFILE=mayhem/Mayhemfile.lighttpd
-    - MAYHEMFILE=mayhem/Mayhemfile.mayhemit
+    - MAYHEMFILE=mayhem/lighttpd.mayhemfile
+    - MAYHEMFILE=mayhem/mayhemit.mayhemfile
 
 script:
   # Download Mayhem CLI and log in to Mayhem server

@@ -62,4 +62,4 @@ Congrats! You just integrated Mayhem in a multi-target CI pipeline for the `ligh
 ForAllSecure was founded with the mission to make the world’s critical software safe. The company has been applying its patented technology from over a decade of CMU research to solving the difficult challenge of making software safer. ForAllSecure has partnered with Fortune 1000 companies in aerospace, automotive and high-tech industries, as well as the US Department of Defense to integrate Mayhem into software development cycles for continuous security. Profitable and revenue-funded, the company is scaling rapidly.
 
 * [https://mayhem.security/](https://mayhem.security/)
-* [https://mayhem.security/mayhem-for-code](https://mayhem.security/mayhem-for-code)
+* [https://mayhem.security/code-security](https://mayhem.security/code-security)

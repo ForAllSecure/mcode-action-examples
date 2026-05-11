@@ -35,7 +35,7 @@ mcode-test-job:
     - curl --no-progress-meter -Lo mayhem-cli ${MAYHEM_URL}/cli/Linux/mayhem && chmod +x mayhem-cli
     - MAYHEM_PROMPT=1 ./mayhem-cli login --url ${MAYHEM_URL} --token ${MAYHEM_TOKEN}
     # Execute Mayhem run and fail if no run was executed
-    - run=$(./mayhem-cli --verbosity info run . --project mcode-action-examples --owner ${GITLAB_USERNAME} --image ${REGISTRY}/${LOWER_REPO_SLUG}:${CI_COMMIT_REF_NAME} --file mayhem/Mayhemfile.${TARGET} --duration 60 --branch-name ${CI_COMMIT_REF_NAME} --revision ${CI_COMMIT_SHA} --ci-url ${CI_PIPELINE_URL});
+    - run=$(./mayhem-cli --verbosity info run . --project mcode-action-examples --owner ${GITLAB_USERNAME} --image ${REGISTRY}/${LOWER_REPO_SLUG}:${CI_COMMIT_REF_NAME} --file ${MAYHEMFILE} --duration 60 --branch-name ${CI_COMMIT_REF_NAME} --revision ${CI_COMMIT_SHA} --ci-url ${CI_PIPELINE_URL});
     - if [ -z "${run}" ]; then exit 1; fi
     # Otherwise, determine run name and wait for job to complete and artifacts to be ready
     - runName=$(echo ${run} | awk -F / '{ print $(NF-1) }');
