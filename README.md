@@ -19,20 +19,20 @@ We have two branches in this repository: `main` and `vulnerable`.
 The `main` branch contains the following targets:
 
 * **lighttpd 1.4.52**:
-    * [lighttpd 1.4.52 Dockerfile](https://github.com/ForAllSecure/mayhem-action-examples/blob/main/mayhem/Dockerfile): Build instructions for settings up a containerized `lighttpd 1.4.52` application.
-    * [lighttpd 1.4.52 Mayhemfile](https://github.com/ForAllSecure/mayhem-action-examples/blob/main/mayhem/lighttpd.mayhemfile): Configuration options for the resulting `lighttpd 1.4.52` CI pipeline Mayhem run.
+    * [lighttpd 1.4.52 Dockerfile](https://github.com/ForAllSecure/mcode-action-examples/blob/main/mayhem/Dockerfile): Build instructions for settings up a containerized `lighttpd 1.4.52` application.
+    * [lighttpd 1.4.52 Mayhemfile](https://github.com/ForAllSecure/mcode-action-examples/blob/main/mayhem/lighttpd.mayhemfile): Configuration options for the resulting `lighttpd 1.4.52` CI pipeline Mayhem run.
 * **c-base-executable**:
-    * [c-base-executable Dockerfile](https://github.com/ForAllSecure/mayhem-action-examples/blob/main/mayhem/Dockerfile): Build instructions for setting up a containerized `c-base-executable` application.
-    * [c-base-executable Mayhemfile](https://github.com/ForAllSecure/mayhem-action-examples/blob/main/mayhem/mayhemit.mayhemfile): Configuration options for the resulting `c-base-executable` CI pipeline Mayhem run.
+    * [c-base-executable Dockerfile](https://github.com/ForAllSecure/mcode-action-examples/blob/main/mayhem/Dockerfile): Build instructions for setting up a containerized `c-base-executable` application.
+    * [c-base-executable Mayhemfile](https://github.com/ForAllSecure/mcode-action-examples/blob/main/mayhem/mayhemit.mayhemfile): Configuration options for the resulting `c-base-executable` CI pipeline Mayhem run.
 
 The `vulnerable` branch contains the following vulnerable targets:
 
 * **(vulnerable) lighttpd 1.4.15**:
-    * [lighttpd 1.4.15 Dockerfile](https://github.com/ForAllSecure/mayhem-action-examples/blob/vulnerable/mayhem/Dockerfile): Build instructions for setting up a containerized `lighttpd 1.4.15` application.
-    * [lighttpd 1.4.15 Mayhemfile](https://github.com/ForAllSecure/mayhem-action-examples/blob/vulnerable/mayhem/lighttpd.mayhemfile): Configuration options for the resulting `lighttpd 1.4.15` CI pipeline Mayhem run.
+    * [lighttpd 1.4.15 Dockerfile](https://github.com/ForAllSecure/mcode-action-examples/blob/vulnerable/mayhem/Dockerfile): Build instructions for setting up a containerized `lighttpd 1.4.15` application.
+    * [lighttpd 1.4.15 Mayhemfile](https://github.com/ForAllSecure/mcode-action-examples/blob/vulnerable/mayhem/lighttpd.mayhemfile): Configuration options for the resulting `lighttpd 1.4.15` CI pipeline Mayhem run.
 * **(vulnerable) c-base-executable**:
-    * [c-base-executable Dockerfile](https://github.com/ForAllSecure/mayhem-action-examples/blob/vulnerable/mayhem/Dockerfile): Build instructions for setting up a containerized (and vulnerable) `c-base-executable` application.
-    * [c-base-executable Mayhemfile](https://github.com/ForAllSecure/mayhem-action-examples/blob/vulnerable/mayhem/mayhemit.mayhemfile): Configuration options for the resulting (vulnerable) `c-base-executable` CI pipeline Mayhem run.
+    * [c-base-executable Dockerfile](https://github.com/ForAllSecure/mcode-action-examples/blob/vulnerable/mayhem/Dockerfile): Build instructions for setting up a containerized (and vulnerable) `c-base-executable` application.
+    * [c-base-executable Mayhemfile](https://github.com/ForAllSecure/mcode-action-examples/blob/vulnerable/mayhem/mayhemit.mayhemfile): Configuration options for the resulting (vulnerable) `c-base-executable` CI pipeline Mayhem run.
 
 ## Getting Started
 
