@@ -1,0 +1,115 @@
+# Azure DevOps job template for running Mayhem.
+#
+# Expects the following pipeline-scoped secret variables to be defined:
+#   - MAYHEM_URL    The Mayhem instance URL (e.g. https://app.mayhem.security)
+#   - MAYHEM_TOKEN  A Mayhem API token
+#
+# The `image` parameter is the short image name and tag (e.g. `lighttpd:main`).
+# It is assumed to live in the Mayhem-managed Docker registry; the template
+# resolves the full registry URL from the Mayhem CLI at runtime.
+
+parameters:
+- name: project
+  type: string
+- name: target
+  type: string
+- name: owner
+  type: string
+- name: image
+  type: string
+- name: duration
+  type: number
+  default: 60
+- name: mayhemfile
+  type: string
+  default: ''
+
+jobs:
+- job: mayhem_${{ replace(parameters.target, '-', '_') }}
+  displayName: 'Mayhem: ${{ parameters.target }}'
+  pool:
+    vmImage: 'ubuntu-latest'
+  variables:
+    mayhemfilePath: ${{ coalesce(parameters.mayhemfile, format('mayhem/{0}.mayhemfile', parameters.target)) }}
+  steps:
+  - checkout: self
+
+  - bash: |
+      set -euo pipefail
+      mkdir -p ~/bin
+      curl --no-progress-meter -Lo ~/bin/mayhem-x86_64 "${MAYHEM_URL}/cli/Linux/mayhem"
+      chmod +x ~/bin/mayhem-x86_64
+      echo "##vso[task.prependpath]$HOME/bin"
+      mayhem-x86_64 login --url "${MAYHEM_URL}" --token "${MAYHEM_TOKEN}"
+    env:
+      MAYHEM_URL: $(MAYHEM_URL)
+      MAYHEM_TOKEN: $(MAYHEM_TOKEN)
+    displayName: 'Install Mayhem CLI and login'
+
+  - bash: |
+      set -euo pipefail
+
+      registry=$(mayhem-x86_64 docker-registry)
+      fullImage="${registry}/${IMAGE}"
+
+      run=$(mayhem-x86_64 --verbosity info run . \
+        --project "${PROJECT}" \
+        --owner "${OWNER}" \
+        --image "${fullImage}" \
+        --file "${MAYHEMFILE}" \
+        --duration "${DURATION}" \
+        --branch-name "$(Build.SourceBranchName)" \
+        --revision "$(Build.SourceVersion)" \
+        --ci-url "$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)" \
+        2>/dev/null)
+
+      if [ -z "${run}" ]; then
+        echo "Mayhem run failed to start."
+        exit 1
+      fi
+
+      runName=$(echo "${run}" | awk -F / '{ print $(NF-1) }')
+      echo "Started Mayhem run: ${run}"
+
+      mayhem-x86_64 --verbosity info wait "${run}" \
+        --owner "${OWNER}" \
+        --sarif "sarif-${runName}.sarif" \
+        --junit "junit-${runName}.xml"
+
+      status=$(mayhem-x86_64 --verbosity info show --owner "${OWNER}" --format json "${run}" | jq -r '.[0].status')
+      if [[ "${status}" == *"stopped"* || "${status}" == *"failed"* ]]; then
+        echo "Mayhem run finished with status: ${status}"
+        exit 2
+      fi
+
+      defects=$(mayhem-x86_64 --verbosity info show --owner "${OWNER}" --format json "${run}" | jq '.[0].defects|tonumber')
+      if [[ "${defects}" -gt 0 ]]; then
+        echo "${defects} defects found!"
+        exit 3
+      fi
+    env:
+      MAYHEM_URL: $(MAYHEM_URL)
+      MAYHEM_TOKEN: $(MAYHEM_TOKEN)
+      PROJECT: ${{ parameters.project }}
+      OWNER: ${{ parameters.owner }}
+      IMAGE: ${{ parameters.image }}
+      MAYHEMFILE: $(mayhemfilePath)
+      DURATION: ${{ parameters.duration }}
+    displayName: 'Run Mayhem on ${{ parameters.target }}'
+
+  - task: PublishPipelineArtifact@1
+    condition: always()
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)'
+      artifact: 'mayhem-${{ parameters.target }}-$(Build.BuildId)'
+      publishLocation: 'pipeline'
+    displayName: 'Publish SARIF and JUnit artifacts'
+
+  - task: PublishTestResults@2
+    condition: always()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'junit-*.xml'
+      mergeTestResults: true
+      testRunTitle: 'Mayhem ${{ parameters.target }}'
+    displayName: 'Publish JUnit test results'
