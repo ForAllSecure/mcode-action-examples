@@ -48,16 +48,16 @@ stages:
   jobs:
   - template: mayhem-template.yml
     parameters:
-      project: 'mayhem-action-examples'
+      project: 'mcode-action-examples'
       target: 'lighttpd'
-      owner: 'forallsecure'
+      owner: 'forallsecure-demo'
       image: '$(imageRepository):$(branchName)'
       duration: 60
 
   - template: mayhem-template.yml
     parameters:
-      project: 'mayhem-action-examples'
+      project: 'mcode-action-examples'
       target: 'mayhemit'
-      owner: 'forallsecure'
+      owner: 'forallsecure-demo'
       image: '$(imageRepository):$(branchName)'
       duration: 60
