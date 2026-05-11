@@ -1,0 +1,63 @@
+# Azure DevOps pipeline for Mayhem.
+#
+# Before running, define the following SECRET variables in the Azure DevOps
+# pipeline settings (Pipeline > Edit > Variables), or via a linked variable
+# group, and mark them as secret:
+#   - MAYHEM_URL    The Mayhem instance URL
+#   - MAYHEM_TOKEN  A Mayhem API token
+
+trigger:
+  branches:
+    include:
+    - main
+
+pr:
+  branches:
+    include:
+    - main
+
+variables:
+  imageRepository: 'lighttpd'
+  branchName: $(Build.SourceBranchName)
+
+stages:
+- stage: Build
+  displayName: 'Build and push image'
+  jobs:
+  - job: build
+    displayName: 'Build Docker image'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+      submodules: recursive
+
+    - bash: |
+        set -euo pipefail
+        image="$(setup.registry)/${IMAGE_REPO}:${BRANCH_NAME}"
+        docker build --platform=linux/amd64 -f mayhem/Dockerfile -t "${image}" .
+        docker push "${image}"
+      env:
+        IMAGE_REPO: $(imageRepository)
+        BRANCH_NAME: $(branchName)
+      displayName: 'Build and push Docker image'
+
+- stage: Mayhem
+  displayName: 'Run Mayhem'
+  dependsOn: Build
+  jobs:
+  - template: mayhem-template.yml
+    parameters:
+      project: 'mcode-action-examples'
+      target: 'lighttpd'
+      owner: 'forallsecure-demo'
+      image: '$(imageRepository):$(branchName)'
+      duration: 60
+
+  - template: mayhem-template.yml
+    parameters:
+      project: 'mcode-action-examples'
+      target: 'mayhemit'
+      owner: 'forallsecure-demo'
+      image: '$(imageRepository):$(branchName)'
+      duration: 60

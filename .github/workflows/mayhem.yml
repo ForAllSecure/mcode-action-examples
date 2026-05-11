@@ -57,7 +57,7 @@ jobs:
         with:
           context: .
           push: true
-          file: Dockerfile
+          file: mayhem/Dockerfile
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.BRANCH_NAME }}
           labels: ${{ steps.meta.outputs.labels }}
 
@@ -72,8 +72,8 @@ jobs:
       fail-fast: false
       matrix:
         mayhemfile:
-          - mayhem/Mayhemfile.lighttpd
-          - mayhem/Mayhemfile.mayhemit
+          - mayhem/lighttpd.mayhemfile
+          - mayhem/mayhemit.mayhemfile
           # Specify one or many Mayhemfiles here
 
     steps:
