@@ -15,6 +15,6 @@ jobs:
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
           owner: ForAllSecure
-          name: mayhem-action-examples
+          name: mcode-action-examples
           token: ${{ secrets.GITHUB_TOKEN }}
           untagged-keep-latest: 1
